@@ -21,7 +21,6 @@ export const  Home = () => {
 	);
 	let loggedInUser = localStorage.getItem('user');
 	let userData = JSON.parse(loggedInUser)
-	let role = userData.foundedUser.role;
 
 	
     return(<>
