@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from "react";
 import axios from 'axios';
+import { Header } from "../Header/Header";
+import { Footer } from '../Footer/Footer';
 
 const API_URL = 'http://localhost:3000/api/v1/car/';
 
@@ -19,21 +21,19 @@ export const  Home = () => {
 		});
 	}, [],
 	);
-	let loggedInUser = localStorage.getItem('user');
-	let userData = JSON.parse(loggedInUser)
+	
 
 	
     return(<>
-			
+			<Header/>
 					<section id="banner" className="major">
 						<div className="inner container">
 							<header className="major">
 								<h1>Lorem ipsum dolor sit amet isicing</h1>
 							</header>
 							<div className="content">
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos, libero!</p>
-								<ul className="actions home_contact">
-									<li><NavLink to="/contact" className="button next scrolly">Contact us</NavLink></li>
+								<ul className="actions">
+									<li key={"searchCars"}><NavLink to="/search/car" className="button next scrolly">Search Cars</NavLink></li>
 								</ul>
 							</div>
 						</div>
@@ -46,7 +46,7 @@ export const  Home = () => {
 								data.allCars.map(item => (
 									
 										
-									<article style={{backgroundImage: `url(${item.image[0]})`}}>
+									<article key={item._id} style={{backgroundImage: `url(${item.image[0]})`}}>
 									
 										<span className="image">
 											<img src={JSON.stringify(item.image[0]).replace(/"/g, ' ')} alt="" />
@@ -74,7 +74,7 @@ export const  Home = () => {
 											
 	
 											<div className="major-actions">
-												<NavLink to={`/cars/${item._id}`} className="button small next">View Car</NavLink>
+												<NavLink to={`/cars/${item._id}`} className="button small">View Car</NavLink>
 											</div>
 											
 										</header>
@@ -95,7 +95,7 @@ export const  Home = () => {
 									</header>
 									<p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus pharetra. Pellentesque condimentum sem. In efficitur ligula tate urna. Maecenas laoreet massa vel lacinia pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus amet pharetra et feugiat tempus.</p>
 									<ul className="actions readmore">
-										<li><NavLink to="/about" className="button next">Read more</NavLink></li>
+										<li key={"about"}><NavLink to="/about" className="button next">Read more</NavLink></li>
 									</ul>
 								</div>
 							</section>
@@ -111,7 +111,7 @@ export const  Home = () => {
 										<p><br/> <span>John Doe</span> | <span>12/06/2020 10:30 </span> | <span>114</span></p>
 
 										<div className="major-actions">
-											<NavLink to="/blogs/:slug" className="button small next scrolly">Read Blog</NavLink>
+											<NavLink to="/blogs/:slug" className="button small scrolly">Read Blog</NavLink>
 										</div>
 									</header>
 								</article>
@@ -125,7 +125,7 @@ export const  Home = () => {
 										<p><br/> <span>John Doe</span> | <span>12/06/2020 10:30 </span> | <span>114</span></p>
 
 										<div className="major-actions">
-											<NavLink to="/blogs/:slug" className="button small next scrolly">Read Blog</NavLink>
+											<NavLink to="/blogs/:slug" className="button small scrolly">Read Blog</NavLink>
 										</div>
 									</header>
 								</article>
@@ -139,7 +139,7 @@ export const  Home = () => {
 										<p><br/> <span>John Doe</span> | <span>12/06/2020 10:30 </span> | <span>114</span></p>
 
 										<div className="major-actions">
-											<NavLink to="/blogs/:slug" className="button small next scrolly">Read Blog</NavLink>
+											<NavLink to="/blogs/:slug" className="button small scrolly">Read Blog</NavLink>
 										</div>
 									</header>
 								</article>
@@ -163,11 +163,11 @@ export const  Home = () => {
 										</div>
 									</div>
 									<ul className="actions readmore">
-										<li><NavLink to="/testimonials" className="button next">Read more</NavLink></li>
+										<li key={"testimonials"}><NavLink to="/testimonials" className="button next">Read more</NavLink></li>
 									</ul>
 								</div>
 							</section>
-					</div>
+					</div> <Footer/>
 					
     </>);
 };

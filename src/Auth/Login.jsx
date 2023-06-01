@@ -2,7 +2,9 @@ import React,{ useRef, useState, useEffect } from "react";
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import { NavLink } from "react-router-dom";
+import { NavLink,useNavigate } from "react-router-dom";
+import { Header } from "../Header/Header";
+import { Footer } from '../Footer/Footer';
 
 const API_URL = 'http://localhost:3000/api/v1/auth/signin';
 
@@ -12,6 +14,9 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 
 export const Login = () => {
+
+    const navigate  = useNavigate();
+
     const userRef = useRef();
     const errRef = useRef();
 
@@ -43,6 +48,10 @@ export const Login = () => {
         setErrMsg('');
     }, [email,password])
 
+    let signupBTN = () => {
+        navigate('/signup')
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         // if button enabled with JS hack
@@ -56,17 +65,15 @@ export const Login = () => {
             const response = await axios.post(API_URL,
                 { email, password }
             );
+      
             if(localStorage.getItem('user') == null){
             localStorage.setItem('user', JSON.stringify(response?.data));
             } else {
                 localStorage.removeItem('user')
                 localStorage.setItem('user', JSON.stringify(response?.data));
             }
-            window.location.href="/"
+            navigate('/home')
             
-            console.log(response?.data);
-            console.log(response?.accessToken);
-            console.log(JSON.stringify(response))
             setSuccess(true);
             //clear state and controlled inputs
             //need value attrib on inputs for this
@@ -89,15 +96,20 @@ export const Login = () => {
     }
 
     return (
-        <div className="signup">
+        <>
+        <Header/>
+        <div id="main" className="alt signup">
+        <section id='one '>
+        <div className="inner">
+            <header className="major"><h1>Login</h1></header>
+        <div className="d-flex justify-content-center">
             {success ? (
                 <section>
                     <h1>Success!</h1>
                 </section>
             ) : (
-                <section>
+                <section className="signup_sec">
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-                    <h2>Login</h2>
                     <form onSubmit={handleSubmit}>
                         <label htmlFor="email">
                             Email:
@@ -117,7 +129,7 @@ export const Login = () => {
                             onFocus={() => setEmailFocus(true)}
                             onBlur={() => setEmailFocus(false)}
                         />
-                        <p id="uidnote" className={emailFocus && email && !validEmail ? "instructions" : "offscreen"}>
+                        <p id="uidnote" className={!emailFocus && email && !validEmail ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
                             Invalid email
                         </p>
@@ -139,23 +151,24 @@ export const Login = () => {
                             onFocus={() => setPwdFocus(true)}
                             onBlur={() => setPwdFocus(false)}
                         />
-                        <p id="pwdnote" className={pwdFocus && !validPwd ? "instructions" : "offscreen"}>
+                        <p id="pwdnote" className={!pwdFocus && password && !validPwd ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
                             8 to 24 characters.<br />
                             Must include uppercase and lowercase letters, a number and a special character.<br />
                             Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
                         </p>
-
-
                        
-
                         <button disabled={!validEmail || !validPwd ? true : false}>Log In</button>
-                        <p id="or">OR</p>
-                        <button className="signBTN"><NavLink to="/Signup">Sign Up</NavLink></button>
+                        <button className="signBTN" onClick={signupBTN}>Sign Up</button>
                     </form>
                 </section>
             )}
         </div>
+        </div>
+        </section>
+        </div>
+        <Footer/>
+        </>
     )
 }
 

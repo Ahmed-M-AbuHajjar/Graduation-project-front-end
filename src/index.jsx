@@ -1,6 +1,9 @@
 import React from 'react';
-import ReactDom from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { App } from './App';
-import {BrowserRouter as Router} from 'react-router-dom';
+import {HashRouter as Router} from 'react-router-dom';
 
-ReactDom.render(<Router><App /></Router>, document.getElementById('root'));
+
+
+
+createRoot(document.getElementById('root')).render(<Router ><App /></Router>);
